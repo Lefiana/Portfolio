@@ -10,8 +10,8 @@ interface AchievementItem {
     title: string;
     issuer: string;
     type: 'certificate' | 'award';
-    image_url: string; // Corrected to lowercase
-    date?: string; // Optional: Add a date field if your API provides one
+    image_url: string; 
+    date?: string; 
     credential_url?: string;
 }
 

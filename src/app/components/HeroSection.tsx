@@ -1,59 +1,3 @@
-// "use client";
-
-// import React from "react";
-// import Section from "./Section";
-
-// interface HeroSectionProps{
-//   info: {
-//     name: string;
-//     tagline: string;
-//     github_url: string;
-//     linkedin_url: string;
-//     resume_url: string;
-//   };
-// };
-
-// const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
-//   <Section className="h-screen flex flex-col items-center justify-center text-center !bg-transparent">
-//       <h1 className="text-5xl text-gray-800 font-extrabold mb-3">
-//         Hi, I'm {info.name || 'Your Name'}
-//       </h1>
-
-//       <p className="text-xl text-indigo-600 max-w-xl mb-8 font-medium">
-//         {info.tagline || 'Your Tagline'}
-//       </p>
-
-//       <div className="flex space-x-4">
-//         <a 
-//         href={info.github_url || "#"}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//         className="px-6 py-3 border border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition duration-300"
-//         >
-//           GitHub
-//         </a>
-//             <a 
-//               href={info.linkedin_url || '#'}
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
-//             >
-//               LinkedIn
-//             </a>
-//             <a 
-//               href={info.resume_url || '#'}
-//               target="_blank"
-//               rel="noopener noreferrer"
-//               className="px-6 py-3 border border-gray-600 text-gray-600 font-semibold rounded-lg hover:text-gray-900 transition duration-300"
-//             >
-//               View Resume
-//             </a>
-//       </div>
-//   </Section>
-// );
-
-// export default HeroSection;
-
 "use client";
 
 import React from "react";
@@ -121,7 +65,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
     {/* Content: Centered, above decorations (z-10) */}
     <div className="relative z-10 flex flex-col items-center justify-center w-full h-full px-4">
       <h1 className="text-5xl text-gray-800 font-extrabold mb-3">
-        Hi, I'm {info.name || 'Your Name'}
+        Hi, "I&apos;m {info.name || 'Your Name'} "
       </h1>
 
       <p className="text-xl text-indigo-600 max-w-xl mb-8 font-medium">

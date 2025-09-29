@@ -133,7 +133,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactInfo }) => {
         {/* Status Messages */}
         {status === 'success' && (
           <p className="mt-4 text-center text-green-400 text-sm font-medium">
-            Message sent successfully! I'll get back to you soon.
+            Message sent successfully! I will get back to you soon.
           </p>
         )}
         {status === 'error' && (
@@ -208,7 +208,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactInfo }) => {
           )}
           
           <p className="pt-4 text-gray-400 text-sm">
-            I aim to respond to all inquiries within 24-48 hours. Let's build something great!
+            I aim to respond to all inquiries within 24-48 hours. Let&apos;s build something great!
           </p>
         </div>
       </div>

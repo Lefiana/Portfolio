@@ -85,9 +85,9 @@ useEffect(() => {
         
         // ✨ THE FIX: Normalize the fetched data before setting the state
         const normalizedInfo = {
-            ...initialPersonalInfoState, // Start with all default empty string values
-            ...infoData, // Overwrite with fetched data (if not null/undefined)
-            // Ensure any potentially null fields from the API are set to a string
+            ...initialPersonalInfoState,
+            ...infoData, 
+           
             name: infoData.name || '',
             tagline: infoData.tagline || '',
             long_bio: infoData.long_bio || '',
@@ -100,15 +100,15 @@ useEffect(() => {
 
         const normalizedCerts = certsData.map((cert: any) => ({
             ...cert,
-            image_url: cert.image_url || '',  // Add this: Normalize image_url
+            image_url: cert.image_url || '',  
         }));
 
         const normalizedProjects = projectsData.map((project: any) => ({
           ...project,
-          image_url: project.image_url || '',  // Added: Normalize image_url
+          image_url: project.image_url || '',  
         }));
                                   
-        setPersonalInfo(normalizedInfo); // Use the normalized data here
+        setPersonalInfo(normalizedInfo); 
         setCerts(normalizedCerts);
         setProjects(normalizedProjects);
         setSkills(skillsData);
@@ -154,7 +154,7 @@ useEffect(() => {
       setCerts(prev => [...prev, { 
   ...newCert, 
       id: data.achievementId || Date.now(), 
-      image_url: newCert.image_url  // Add this line: Explicitly set (though ...newCert covers it)
+      image_url: newCert.image_url  
     } as CertItem]);
       setNewCert(initialNewCertState);
     } else {
@@ -189,7 +189,7 @@ useEffect(() => {
         setProjects(prev => [...prev, { 
           ...projectData, 
           id: data.projectId || Date.now(), 
-          image_url: newProject.image_url  // Added: Explicitly set (though ...projectData covers it)
+          image_url: newProject.image_url  
         } as ProjectItem]);
         setNewProject(initialNewProjectState);
     } else {
@@ -335,7 +335,7 @@ useEffect(() => {
                     src={cert.image_url} 
                     alt={`${cert.title} image`} 
                     className="w-8 h-8 rounded mr-2 object-cover" 
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}  // Hide if broken URL
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}  
                   />
                 )}
                 <span className="text-gray-700 truncate mr-4 text-sm font-medium">  {/* Fixed className: was text-shadow-gray-700 */}
@@ -376,7 +376,7 @@ useEffect(() => {
             <label htmlFor="project-tech" className="sr-only">Technologies (comma separated)</label>
             <input id="project-tech" type="text" placeholder="Technologies (comma separated)" value={newProject.technologies} onChange={(e) => setNewProject({ ...newProject, technologies: e.target.value })} className={inputClass} />
           </div>
-          <div className="md:col-span-3">  // Span full width for URL input (or adjust to 1 col)
+          <div className="md:col-span-3">  
             <label htmlFor="project-image-url" className="sr-only">Image URL (e.g., Cloudinary)</label>
             <input 
               id="project-image-url" 
@@ -409,7 +409,7 @@ useEffect(() => {
                     src={project.image_url} 
                     alt={`${project.title} image`} 
                     className="w-8 h-8 rounded mr-2 object-cover" 
-                    onError={(e) => { e.currentTarget.style.display = 'none'; }}  // Hide if broken URL
+                    onError={(e) => { e.currentTarget.style.display = 'none'; }}  
                   />
                 )}
                 <span className="text-gray-700 truncate mr-4 text-sm font-medium">
