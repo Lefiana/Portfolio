@@ -1,10 +1,81 @@
+/* globals.css */
+
+/* 1. Tailwind import must be first */
 @import "tailwindcss";
 
+/* -------------------------------------------------------------------------- */
+/* 2. Custom Keyframes for Animation (Moved to the top) */
+/* -------------------------------------------------------------------------- */
+@keyframes gradient-bg {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+/* globals.css */
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* HeroSection Enhancements: Custom Animations and Background */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;  /* Slow rotation: 20s full spin */
+}
+
+@keyframes spin-slow-reverse {
+  from { transform: rotate(360deg); }
+  to { transform: rotate(0deg); }
+}
+
+.animate-spin-slow-reverse {
+  animation: spin-slow-reverse 25s linear infinite;  /* Reverse, slightly slower */
+}
+
+/* Hero Background: Subtle Cloudinary Image */
+.hero-bg {
+  background-image: url('https://res.cloudinary.com/dal65p2pp/image/upload/w_800,h_800,c_scale,f_auto,q_70,g_center/e_grayscale,o_20/v1758950394/1-removebg-preview_wxf1yk.jpg');  /* Paste your optimized URL here */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.2;  /* Subtle blending - adjust 0.1-0.3 */
+}
+
+/* Optional: If you want dynamic URL later, use CSS var (set via JS) */
+.hero-bg-dynamic {
+  background-image: var(--hero-bg-url, none);  /* Fallback to none if var not set */
+  /* ... other properties same as above */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 3. Variables and Default Body/HTML Styles (Consolidated) */
+/* -------------------------------------------------------------------------- */
 :root {
   --background: #ffffff;
   --foreground: #171717;
 }
 
+/* Your custom theme definition */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -12,6 +83,7 @@
   --font-mono: var(--font-geist-mono);
 }
 
+/* Dark mode variables */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
@@ -19,8 +91,60 @@
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
+  /* Use variables, remove redundant definitions */
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: Arial, Helvetica, sans-serif; /* Keep your preferred font */
 }
+
+
+/* -------------------------------------------------------------------------- */
+/* 4. Custom Animated Background Class */
+/* -------------------------------------------------------------------------- */
+.animated-bg {
+  /* Overrides for a forced dark, animated theme */
+  background: linear-gradient(-45deg, #171717, #02021f, #171717, #0a0a0a);
+  background-size: 400% 400%;
+  animation: gradient-bg 20s ease infinite;
+  color: #ededed; /* Ensure text is light on the dark background */
+}
+
+/* -------------------------------------------------------------------------- */
+/* 5. Component Styles (Remain unchanged) */
+/* -------------------------------------------------------------------------- */
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  background: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: center;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  z-index: 1000;
+}
+
+.navbar ul {
+  list-style: none;
+  display: flex;
+  gap: 2rem;
+  margin: 0;
+  padding: 0;
+}
+
+.section {
+  min-height: 100vh;
+  padding: 6rem 2rem 2rem;
+  border-bottom: 1px solid #eee;
+}
+
+.section h2 {
+  margin-bottom: 1rem;
+}
+
