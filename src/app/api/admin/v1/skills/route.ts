@@ -2,24 +2,17 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth"; 
+import { requireAuth } from "@/lib/authmiddleware";
 
 export async function POST(req: NextRequest) {
     
-    // -------------------------------------------------------------------------
-    // 1. Authentication Check (Combined with token verification)
-    // -------------------------------------------------------------------------
-    const auth = req.headers.get("authorization");
-    if (!auth) {
-        return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    // --- 1. AUTHENTICATION (Reusable middleware) ---
+    const authResult = requireAuth(req);
+    if ('error' in authResult) {
+        return authResult.error;
     }
-    
-    const token = auth.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-        return NextResponse.json({ error: "Invalid token or not authorized" }, { status: 401 });
-    }
-    
+
+    const { userId } = authResult; // Safely extracted from middleware
     // --- 2. Validation and Destructuring (Skill Fields) ---
     const { 
         skill_name, 
@@ -33,7 +26,6 @@ export async function POST(req: NextRequest) {
 
     // --- 3. Database Insertion ---
     try {
-        const userId = (decoded as any).id;
         
         const insertQuery = `
             INSERT INTO skills (

@@ -1,37 +1,28 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth";
-
-// Middleware to handle authentication and ID validation
-const authenticateAndValidate = async (req: NextRequest, params: Promise<{ id: string }>)=> {
-    const resolvedParams = await params;
-    const { id } = resolvedParams;
-
-
-    const auth = req.headers.get("authorization");
-    if (!auth) {
-        return { error: NextResponse.json({ error: "Authentication required" }, { status: 401 }) };
-    }
-    const token = auth.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-        return { error: NextResponse.json({ error: "Invalid token or not authorized" }, { status: 401 }) };
-    }
-    const userId = (decoded as any).id;
-
-    if (!id) {
-        return { error: NextResponse.json({ error: "Invalid or missing Project ID." }, { status: 400 }) };
-    }
-    return { userId, id };
-};
+import { requireAuth } from "@/lib/authmiddleware";
 
 // =========================================================================================
 // GET: Fetch a single project
 // =========================================================================================
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+    
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
+    
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
+    
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
 
     try {
         const result = await pool.query(
@@ -53,9 +44,23 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 // PUT: Update a single project
 // =========================================================================================
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+    
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
+    
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
+    
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
 
     const { title, description, image_url, technologies, github_url, live_url, is_featured, priority } = await req.json();
 
@@ -113,9 +118,23 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 // DELETE: Delete a single project
 // =========================================================================================
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+    
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
+    
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
+    
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
 
     try {
         const result = await pool.query(

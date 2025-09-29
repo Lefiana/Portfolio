@@ -1,9 +1,7 @@
-// app/components/ProjectsSection.tsx
-
 "use client";
 
 import React from "react";
-
+import Image from "next/image";
 interface ProjectItem {
   id: number;
   title: string;
@@ -23,13 +21,18 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) => (
     {projects.map((project) => (
       <div
         key={project.id}
-        className="relative group rounded-2xl overflow-hidden shadow-xl border border-gray-300"
+        // FIX: Added h-48 class here to define the container's height
+        className="relative group rounded-2xl overflow-hidden shadow-xl border border-gray-300 h-48" 
       >
         {/* Background Image */}
-        <img
+        <Image
           src={project.image_url}
           alt={project.title}
-          className="w-full h-48 object-cover transition-transform duration-500 group-hover:scale-110"
+          fill={true} // FIX: Use 'fill' to make image take up 100% of parent's space
+          sizes="(max-width: 768px) 100vw, 50vw" // Best practice for responsiveness
+          style={{ objectFit: 'cover' }} // Use style prop for object-fit property
+          // Removed w-full h-48 and object-cover, kept transform/hover classes
+          className="transition-transform duration-500 group-hover:scale-110" 
         />
 
         {/* Front content (Title + Techs) */}

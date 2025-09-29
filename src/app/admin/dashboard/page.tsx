@@ -337,7 +337,7 @@ useEffect(() => {
               <div className="flex items-center">
                 {/* Added: Image Preview (small, optional) */}
                 {cert.image_url && (
-                  <img 
+                  <Image 
                     src={cert.image_url} 
                     alt={`${cert.title} image`} 
                     className="w-8 h-8 rounded mr-2 object-cover" 
@@ -411,7 +411,7 @@ useEffect(() => {
               <div className="flex items-center">  {/* Wrap for alignment */}
                 {/* Added: Image Preview (small, optional) */}
                 {project.image_url && (
-                  <img 
+                  <Image 
                     src={project.image_url} 
                     alt={`${project.title} image`} 
                     className="w-8 h-8 rounded mr-2 object-cover" 

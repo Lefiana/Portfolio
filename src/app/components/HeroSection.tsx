@@ -65,7 +65,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
     {/* Content: Centered, above decorations (z-10) */}
     <div className="relative z-10 flex flex-col items-center justify-center w-full h-full px-4">
       <h1 className="text-5xl text-gray-800 font-extrabold mb-3">
-        Hi, "I&apos;m {info.name || 'Your Name'} "
+        Hi, I&apos;m {info.name || 'Your Name'} 
       </h1>
 
       <p className="text-xl text-indigo-600 max-w-xl mb-8 font-medium">

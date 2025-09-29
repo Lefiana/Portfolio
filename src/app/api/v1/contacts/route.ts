@@ -27,7 +27,7 @@ try {
         if (error) {
             console.error("Transporter verification failed:", error);
         } else {
-            console.log("Email transporter ready");
+            console.log("Email transporter ready", success);
         }
     });
 } catch (error) {

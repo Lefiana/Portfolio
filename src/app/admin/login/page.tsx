@@ -31,6 +31,7 @@ export default function AdminLoginpage(){
             router.push("/admin/dashboard");
         }catch(err){
             setError("Something went wrong");
+            console.error(err);
         }
     }
 

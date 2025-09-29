@@ -1,44 +1,30 @@
-// pages/api/admin/v1/achievements/[id].ts (Admin Read/Update/Delete)
-
 import { NextRequest, NextResponse } from "next/server";
-import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth";
-
-
-// Middleware to handle authentication and ID validation
-const authenticateAndValidate = async (req: NextRequest, params: Promise<{ id: string }>) => {
-    const resolvedParams = await params;
-    const { id } = resolvedParams;
-
-    // --- Authentication ---
-    const auth = req.headers.get("authorization");
-    if (!auth) {
-        return { error: NextResponse.json({ error: "Authentication required" }, { status: 401 }) };
-    }
-    const token = auth.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-        return { error: NextResponse.json({ error: "Invalid token or not authorized" }, { status: 401 }) };
-    }
-    const userId = (decoded as any).id;
-
-    // --- ID Validation ---
-    if (!id) {
-        return { error: NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 }) };
-    }
-
-    return { userId, id };
-};
+import pool from "@/lib/db"; // <-- ADDED: Need this for database queries
+import { requireAuth } from "@/lib/authmiddleware"; // <-- Corrected path/function name usage
 
 // GET single
 export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+    
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
+    
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
+    
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
     
     try {
         const result = await pool.query(
-            "SELECT id, title, issuer, date, credential_url, image_url FROM certificates WHERE id = $1 AND user_id = $2",  // Added image_url
+            "SELECT id, title, issuer, date, credential_url, image_url FROM certificates WHERE id = $1 AND user_id = $2",  
             [id, userId]
         );
 
@@ -54,13 +40,27 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ id: 
 
 // PUT SINGLE
 export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+    
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
 
-    const { title, issuer, date, credential_url, image_url } = await req.json();  // Added image_url
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
 
-    if (!title && !issuer && !date && !credential_url && !image_url) {  // Added image_url to check
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
+
+    const { title, issuer, date, credential_url, image_url } = await req.json();
+
+    if (!title && !issuer && !date && !credential_url && !image_url) {
         return NextResponse.json({ error: "At least one field is required for update." }, { status: 400 });
     }
 
@@ -71,7 +71,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
                 issuer = COALESCE($4, issuer),
                 date = COALESCE($5, date),
                 credential_url = COALESCE($6, credential_url),
-                image_url = COALESCE($7, image_url),  -- Added image_url
+                image_url = COALESCE($7, image_url),  
                 updated_at = NOW()
             WHERE id = $1 AND user_id = $2
             RETURNING id;
@@ -83,7 +83,7 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
             issuer || null, 
             date || null, 
             credential_url || null,
-            image_url || null  // Added image_url param
+            image_url || null
         ];
         
         const result = await pool.query(updateQuery, updateValues);
@@ -100,9 +100,23 @@ export async function PUT(req: NextRequest, { params }: { params: Promise<{ id: 
 
 // DELETE SINGLE
 export async function DELETE(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
-    const authResult = await authenticateAndValidate(req, params);
-    if (authResult.error) return authResult.error;
-    const { userId, id } = authResult;
+    // 1. Get ID from parameters
+    const { id } = await params;
+
+    // 2. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req); 
+
+    // FIX: Use 'in' operator to correctly narrow the type
+    if ('error' in authResult) {
+        return authResult.error;
+    }
+    
+    const { userId } = authResult; // Now TypeScript knows this property exists
+
+    // 3. ID Validation (Route-specific)
+    if (!id) {
+        return NextResponse.json({ error: "Invalid or missing Achievement ID." }, { status: 400 });
+    }
 
     try {
         const result = await pool.query(

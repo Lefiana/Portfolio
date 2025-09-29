@@ -3,6 +3,7 @@
 "use client";
 
 import React from 'react';
+import Image from 'next/image';
 
 // 1. Corrected interface to match the API data and added the optional credentialUrl
 interface CertificateModalProps {
@@ -42,7 +43,7 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ isOpen, onClose, ti
         
         {/* Image Body */}
         <div className="p-4 overflow-y-auto max-h-[80vh]">
-          <img src={image_url} alt={title} className="w-full h-auto object-contain" />
+          <Image src={image_url} alt={title} className="w-full h-auto object-contain" />
         </div>
 
         {/* 2. Conditionally render the credential button if the URL exists */}

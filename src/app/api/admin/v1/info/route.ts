@@ -2,20 +2,19 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth"; 
+import { requireAuth } from "@/lib/authmiddleware";
 
 export async function PUT(req: NextRequest) {
-    const auth = req.headers.get("authorization");
-    if (!auth) {
-        return NextResponse.json({ error: "Authentication required" }, { status: 401 });
+    // 1. AUTHENTICATION (Reusable middleware)
+    const authResult = requireAuth(req);
+
+    if ('error' in authResult) {
+        return authResult.error;
     }
     
-    const token = auth.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-        return NextResponse.json({ error: "Invalid token or not authorized" }, { status: 401 });
-    }
+    const { userId } = authResult; // Safely extracted from middleware
 
+    // 2. Validation
     const { name, tagline, long_bio, photo_url, contact_email, linkedin_url, github_url, resume_url } = await req.json();
     
     if (!name && !tagline && !contact_email) {
@@ -24,8 +23,6 @@ export async function PUT(req: NextRequest) {
     }
     
     try {
-        const userId = (decoded as any).id;
-        
         // --- STEP 1: Try to UPDATE the existing row ---
         const updateQuery = `
             UPDATE personal_info SET

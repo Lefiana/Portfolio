@@ -2,20 +2,15 @@
 
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
-import { verifyToken } from "@/lib/auth"; 
+import { requireAuth } from "@/lib/authmiddleware";
 export async function POST(req: NextRequest) {
 
-    // --- 1. Authentication Check ---
-    const auth = req.headers.get("authorization");
-    if (!auth) {
-        return NextResponse.json( {error: "Authentication required" }, { status: 401 });
+    // --- 1. AUTHENTICATION (Reusable middleware) ---
+    const authResult = requireAuth(req);
+    if ('error' in authResult) {
+        return authResult.error;
     }
-    
-    const token = auth.split(" ")[1];
-    const decoded = verifyToken(token);
-    if (!decoded) {
-        return NextResponse.json({ error: "Invalid token or not authorized" }, { status: 401 });
-    }
+    const { userId } = authResult; // Safely extracted from middleware
 
     // --- 3. Validation and Destructuring (Project Fields) ---
     const { 
@@ -41,7 +36,6 @@ export async function POST(req: NextRequest) {
 
     // --- 4. Database Insertion ---
     try {
-        const userId = (decoded as any).id;
         
         // SQL query to insert a new project into the 'projects' table
         const insertQuery = `
