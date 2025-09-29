@@ -1,20 +1,40 @@
-import type { NextApiRequest, NextApiResponse } from "next";
-import pool from "@/lib/db"
+import { NextRequest, NextResponse } from "next/server";
+import pool from "@/lib/db";
 import bcrypt from "bcryptjs";
 
-export default async function handler (req: NextApiRequest, res: NextApiResponse) {
-    if (req.method !== "POST") return res.status(405).end();
-    const { email, password } = req.body;
-    if (!email || !password) return res.status(400).json({ error: "Email and Password Required"});
-    const hashed = bcrypt.hashSync(password, 10);
+export async function POST(req: NextRequest) {
     try {
-        await pool.query(
-            "INSERT INTO users (email, password) VALUES ($1, $2) ON CONFLICT (email) DO NOTHING",
-        [email, hashed]
+        // 1. Parse JSON body from NextRequest
+        const { email, password } = await req.json();
+
+        // 2. Validation
+        if (!email || !password) {
+            return NextResponse.json(
+                { error: "Email and Password Required" }, 
+                { status: 400 }
+            );
+        }
+
+        // 3. Hash password and insert into database
+        const hashed = bcrypt.hashSync(password, 10);
+        
+        const result = await pool.query(
+            "INSERT INTO users (email, password) VALUES ($1, $2) ON CONFLICT (email) DO NOTHING RETURNING id",
+            [email, hashed]
         );
-        return res.json({ok:true});
-    }catch(err){
-        console.error(err);
-        return res.status(500).json({error: "Server error"});
+
+        // Check if an insertion actually occurred (for ON CONFLICT DO NOTHING)
+        if (result.rowCount === 0) {
+            return NextResponse.json(
+                { error: "User already exists or conflict occurred" },
+                { status: 409 } // Conflict
+            );
+        }
+        
+        // 4. Success response
+        return NextResponse.json({ ok: true, message: "User registered successfully" }, { status: 201 });
+    } catch (err) {
+        console.error("Registration error:", err);
+        return NextResponse.json({ error: "Server error during registration" }, { status: 500 });
     }
 }
