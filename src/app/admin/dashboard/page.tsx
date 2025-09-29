@@ -340,8 +340,11 @@ useEffect(() => {
                   <Image 
                     src={cert.image_url} 
                     alt={`${cert.title} image`} 
+                    width={32}
+                    height={32}
                     className="w-8 h-8 rounded mr-2 object-cover" 
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}  
+                    
                   />
                 )}
                 <span className="text-gray-700 truncate mr-4 text-sm font-medium">  {/* Fixed className: was text-shadow-gray-700 */}
@@ -414,6 +417,8 @@ useEffect(() => {
                   <Image 
                     src={project.image_url} 
                     alt={`${project.title} image`} 
+                    width={32}
+                    height={32}
                     className="w-8 h-8 rounded mr-2 object-cover" 
                     onError={(e) => { e.currentTarget.style.display = 'none'; }}  
                   />

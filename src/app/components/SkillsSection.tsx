@@ -29,7 +29,7 @@ const skillIcons: Record<string, JSX.Element> = {
   JavaScript: <SiJavascript className="text-yellow-400" />,
 };
 
-const SkillsSection: React.FC<SkillsSectionProps> = ({ skills }) => {
+const SkillsSection: React.FC<SkillsSectionProps> = ({ skills = [] }) => {
   const groupedSkills: GroupedSkills = skills.reduce((acc, skill) => {
     const category = skill.category || "Other";
     if (!acc[category]) acc[category] = [];

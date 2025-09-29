@@ -16,7 +16,7 @@ interface ProjectsSectionProps {
   projects: ProjectItem[];
 }
 
-const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects }) => (
+const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects = [] }) => (
   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-8">
     {projects.map((project) => (
       <div

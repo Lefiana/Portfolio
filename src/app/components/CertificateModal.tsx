@@ -22,12 +22,12 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ isOpen, onClose, ti
   return (
     // Backdrop
     <div 
-      className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 transition-opacity duration-300"
+      className="fixed inset-0 z-50 flex items-center justify-center bg-opacity-10 transition-opacity duration-300"
       onClick={onClose} // Close modal when clicking outside
     >
       {/* Modal Content */}
       <div 
-        className="bg-white rounded-lg shadow-2xl max-w-4xl w-11/12 max-h-[90vh] overflow-hidden transform scale-100 transition-transform duration-300"
+        className="bg-white rounded-lg shadow-2xl max-w-4xl w-11/12 max-h-[90vh] overflow-hidden transform scale-100 transition-transform duration-300 flex flex-col"
         onClick={(e) => e.stopPropagation()} // Prevent closing when clicking inside
       >
         {/* Header */}
@@ -42,8 +42,8 @@ const CertificateModal: React.FC<CertificateModalProps> = ({ isOpen, onClose, ti
         </div>
         
         {/* Image Body */}
-        <div className="p-4 overflow-y-auto max-h-[80vh]">
-          <Image src={image_url} alt={title} className="w-full h-auto object-contain" />
+        <div className="flex-grow flex justify-center overflow-auto bg-gray-200 ">
+          <Image src={image_url} alt={title} width={1000} height={700} className="w-full h-auto object-contain" />
         </div>
 
         {/* 2. Conditionally render the credential button if the URL exists */}

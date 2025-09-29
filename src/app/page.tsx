@@ -93,8 +93,8 @@ export default async function HomePage() {
     <main
       className="
         bg-gradient-to-b
-        from-blue-200
-        via-gray-300
+        from-gray-100
+        via-gray-400
         to-gray-900
         min-h-screen
         text-gray-800"

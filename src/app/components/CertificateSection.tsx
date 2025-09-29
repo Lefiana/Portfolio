@@ -19,7 +19,7 @@ interface AchievementSectionProps {
 }
 
 // 2. Corrected Component Structure: Hooks at the top level
-const CertificatesSection: React.FC<AchievementSectionProps> = ({ achievements }) => {
+const CertificatesSection: React.FC<AchievementSectionProps> = ({ achievements = []}) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     
     // Corrected state type to hold a single AchievementItem
