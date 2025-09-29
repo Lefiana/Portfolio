@@ -64,7 +64,7 @@ const ContactSection: React.FC<ContactSectionProps> = ({ contactInfo }) => {
         setStatus('error');
         setErrorMsg(data.message || 'Failed to send message. Please try again.');
       }
-    } catch (error) {
+    } catch (_) {
       setStatus('error');
       setErrorMsg('Network error. Please check your connection and try again.');
     }

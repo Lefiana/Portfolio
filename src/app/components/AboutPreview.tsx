@@ -1,15 +1,14 @@
-// app/components/AboutPreview.tsx
-
 "use client";
 
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 
 interface AboutPreviewProps {
-  info: {
-    photo_url: string;
-    long_bio: string;
-  };
+    info: {
+        photo_url: string;
+        long_bio: string;
+    };
 }
 
 const AboutPreview: React.FC<AboutPreviewProps> = ({ info }) => {
@@ -22,12 +21,20 @@ const AboutPreview: React.FC<AboutPreviewProps> = ({ info }) => {
             
             {/* Left Column (Image) */}
             <div className="md:col-span-1 flex justify-center">
-                <img
-                    // 2. Use the dynamic photo_url from the API
-                    src={info.photo_url}
-                    alt="A professional photo"
-                    className="rounded-xl w-full max-w-xs md:max-w-none shadow-xl object-cover aspect-square"
-                />
+                {/* START FIX: Wrapper div with relative positioning and size definition */}
+                <div className="relative w-full max-w-xs md:max-w-none shadow-xl rounded-xl aspect-square overflow-hidden">
+                    <Image
+                        // 2. Use the dynamic photo_url from the API
+                        src={info.photo_url}
+                        alt="A professional photo"
+                        fill={true} // FIX: Use fill instead of width/height props
+                        sizes="(max-width: 768px) 100vw, 33vw" // Added required sizes property
+                        style={{ objectFit: 'cover' }} // Use style prop for object-fit
+                        // Kept only the styling that doesn't define size/shape
+                        className="transition-transform duration-300" 
+                    />
+                </div>
+                {/* END FIX */}
             </div>
 
             {/* Right Column (Text) */}
