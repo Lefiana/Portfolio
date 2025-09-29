@@ -130,23 +130,19 @@ export default async function HomePage() {
   );
 }
 
+const BASE_URL = process.env.VERCEL_URL
+ ? `https://${process.env.VERCEL_URL}` // Production URL
+ : 'http://localhost:3000'; // Development URL
 async function getPortfolioData(): Promise<PortfolioData> {
-  // --- CHANGE: Use relative paths for internal API calls (Next.js App Router best practice) ---
-  const endpoints = {
-    personalInfo: `/api/v1/info`,
-    skills: `/api/v1/skills`,
-    projects: `/api/v1/projects`,
-    achievements: `/api/v1/achievements`,
-  };
 
   try {
     // When running in a Server Component on Vercel/Next.js runtime, 
     // fetch requests using relative paths are automatically routed internally and securely.
     const [infoRes, skillsRes, projectsRes, achievementsRes] = await Promise.all([
-      fetch(endpoints.personalInfo, { next: { revalidate: 3600 } }), // Cache for 1 hour
-      fetch(endpoints.skills, { next: { revalidate: 3600 } }),
-      fetch(endpoints.projects, { next: { revalidate:3600 } }),
-      fetch(endpoints.achievements, { next: { revalidate: 3600 } }),
+      fetch(`${BASE_URL}/api/v1/info`, { next: { revalidate: 3600 } }), // Cache for 1 hour
+      fetch(`${BASE_URL}/api/v1/skills`, { next: { revalidate: 3600 } }),
+      fetch(`${BASE_URL}/api/v1/projects`, { next: { revalidate:3600 } }),
+      fetch(`${BASE_URL}/api/v1/achievements` , { next: { revalidate: 3600 } }),
     ]);
 
     const [personalInfo, skills, projects, achievements] = await Promise.all([

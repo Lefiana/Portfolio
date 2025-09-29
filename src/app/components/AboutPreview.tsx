@@ -4,7 +4,6 @@
 
 import React from 'react';
 import Link from 'next/link';
-import { marked } from 'marked'; // Library to parse Markdown
 
 interface AboutPreviewProps {
   info: {

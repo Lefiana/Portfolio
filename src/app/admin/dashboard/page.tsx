@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { useRouter } from "next/navigation";
+import Image from 'next/image';
 
 // --- 1. Define Interfaces for Type Safety ---
 interface PersonalInfo {
@@ -27,9 +28,9 @@ interface SkillItem extends Item { skill_name: string; category: string; priorit
 
 // Initial State Objects
 const initialPersonalInfoState: PersonalInfo = { name: '', tagline: '', long_bio: '', photo_url: '', contact_email: '', linkedin_url: '', github_url: '', resume_url: '' };
-const initialNewCertState = { title: "", issuer: "", date: "", credential_url: "", image_url: ""};
-const initialNewProjectState = { title: "", description: "", technologies: "", github_url: "", live_url: "", is_featured: false, priority: 0, image_url: "" };
-const initialNewSkillState = { skill_name: "", category: "", priority: 0 };
+const initialNewCertState: CertItem = { id: 0, title: "", issuer: "", date: "", credential_url: "", image_url: ""};
+const initialNewProjectState: ProjectItem = { id: 0, title: "", description: "", technologies: [], github_url: "", live_url: "", is_featured: false, priority: 0, image_url: "" };
+const initialNewSkillState: SkillItem = { id: 0, title: "", skill_name: "", category: "", priority: 0 };
 
 // =============================================================================================
 
@@ -42,6 +43,8 @@ export default function AdminDashboard() {
   const [newCert, setNewCert] = useState(initialNewCertState);
   const [newProject, setNewProject] = useState(initialNewProjectState);
   const [newSkill, setNewSkill] = useState(initialNewSkillState);
+
+  const [rawTechnologiesInput, setRawTechnologiesInput] = useState<string>('');
 
   const [loading, setLoading] = useState(true);
   const router = useRouter();
@@ -84,7 +87,7 @@ useEffect(() => {
         const infoData = Array.isArray(info) && info.length > 0 ? info[0] : info; 
         
         // ✨ THE FIX: Normalize the fetched data before setting the state
-        const normalizedInfo = {
+        const normalizedInfo: PersonalInfo = {
             ...initialPersonalInfoState,
             ...infoData, 
            
@@ -98,12 +101,12 @@ useEffect(() => {
             resume_url: infoData.resume_url || '',
         };
 
-        const normalizedCerts = certsData.map((cert: any) => ({
+        const normalizedCerts = certsData.map((cert: CertItem) => ({
             ...cert,
             image_url: cert.image_url || '',  
         }));
 
-        const normalizedProjects = projectsData.map((project: any) => ({
+        const normalizedProjects = projectsData.map((project: ProjectItem) => ({
           ...project,
           image_url: project.image_url || '',  
         }));
@@ -175,9 +178,11 @@ useEffect(() => {
     const headers = getAuthHeaders();
     if (!headers) return;
 
+    const splitTechnologies = rawTechnologiesInput.split(',').map(tech => tech.trim()).filter(tech => tech);
+
     const projectData = { 
         ...newProject, 
-        technologies: newProject.technologies.split(',').map(t => t.trim()).filter(t => t) 
+        technologies: splitTechnologies,
     };
 
     const res = await fetch("/api/admin/v1/projects", { 
@@ -192,6 +197,7 @@ useEffect(() => {
           image_url: newProject.image_url  
         } as ProjectItem]);
         setNewProject(initialNewProjectState);
+        setRawTechnologiesInput('');
     } else {
         alert("Failed to add project: " + (data.error || res.statusText));
     }
@@ -374,7 +380,7 @@ useEffect(() => {
           </div>
           <div className="md:col-span-4">
             <label htmlFor="project-tech" className="sr-only">Technologies (comma separated)</label>
-            <input id="project-tech" type="text" placeholder="Technologies (comma separated)" value={newProject.technologies} onChange={(e) => setNewProject({ ...newProject, technologies: e.target.value })} className={inputClass} />
+            <input id="project-tech" type="text" placeholder="Technologies (comma separated)" value={rawTechnologiesInput} onChange={(e) => setRawTechnologiesInput(e.target.value)} className={inputClass} />
           </div>
           <div className="md:col-span-3">  
             <label htmlFor="project-image-url" className="sr-only">Image URL (e.g., Cloudinary)</label>

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 
-export async function GET(req: NextRequest) {
+export async function GET() {
     try {
         const result = await pool.query(
             "SELECT name, tagline, long_bio, photo_url, contact_email, linkedin_url, github_url, resume_url FROM personal_info"

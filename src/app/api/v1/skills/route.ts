@@ -1,7 +1,7 @@
 import pool from "@/lib/db"
 import { NextRequest, NextResponse } from "next/server";
 
-export async function GET(req: NextRequest, res: NextResponse) {
+export async function GET() {
     try{
         const result = await pool.query(
             "SELECT id, skill_name, category, priority FROM skills ORDER BY category DESC, priority ASC, updated_at DESC "

@@ -1,4 +1,3 @@
-import Section from "../components/Section";
 import Link from "next/link";
 
 export default function AboutPage() {

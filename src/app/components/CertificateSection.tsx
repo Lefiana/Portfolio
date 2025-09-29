@@ -1,6 +1,5 @@
 "use client";
 
-import Section from "./Section";
 import React, { useState } from 'react';
 import CertificateModal from './CertificateModal';
 

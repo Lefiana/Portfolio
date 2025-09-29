@@ -3,7 +3,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pool from "@/lib/db";
 import { verifyToken } from "@/lib/auth";
-import { Result } from "pg";
+
 
 // Middleware to handle authentication and ID validation
 const authenticateAndValidate = async (req: NextRequest, params: Promise<{ id: string }>) => {
