@@ -115,7 +115,7 @@ export default async function HomePage() {
         <SkillsSection skills={skills} />
       </Section>
 
-      <Section id="projects" title="Projects" delay={0} animationVariant="slide-left">
+      <Section id="projects" title="Projects & Experience" delay={0} animationVariant="slide-left">
         <ProjectsSection projects={projects} />
       </Section>
 

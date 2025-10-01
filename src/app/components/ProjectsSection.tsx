@@ -53,9 +53,6 @@ const ProjectsSection: React.FC<ProjectsSectionProps> = ({ projects = [] }) => (
         {/* Hover Overlay */}
         <div className="absolute inset-0 bg-white/95 dark:bg-gray-900/95 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col p-6 justify-between">
           <div>
-            <h3 className="text-2xl font-bold text-gray-900 dark:text-white mb-3">
-              {project.title}
-            </h3>
             <p className="text-gray-700 dark:text-gray-300 mb-4">
               {project.description}
             </p>
