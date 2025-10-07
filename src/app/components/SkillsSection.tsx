@@ -42,7 +42,7 @@ const SkillsSection: React.FC<SkillsSectionProps> = ({ skills = [] }) => {
       {Object.entries(groupedSkills).map(([category, skillsList]) => (
         <div key={category}>
           {/* Category Header */}
-          <h3 className="text-lg font-bold mb-3 text-gray-700 dark:text-indigo-400 border-b pb-1 border-gray-300 dark:border-gray-700">
+          <h3 className="text-lg font-bold mb-3 text-gray-700 dark:text-gray-200 border-b pb-1 border-gray-300 dark:border-gray-700">
             {category}
           </h3>
 

@@ -14,7 +14,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
-  <Section className="h-screen flex flex-col items-center justify-center text-center !bg-transparent relative overflow-hidden">
+  <Section className="h-[75vh] pt-32 flex flex-col items-center justify-start text-center !bg-transparent relative overflow-hidden">
     {/* Background Image: Now via external CSS class */}
     <div className="hero-bg absolute inset-0" />  {/* Subtle opacity from CSS */}
 
@@ -63,13 +63,13 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
     </div>
 
     {/* Content: Centered, above decorations (z-10) */}
-    <div className="relative z-10 flex flex-col items-center justify-center w-full h-full px-4">
-      <h1 className="text-5xl text-gray-800 font-extrabold mb-3">
-        Hi, I&apos;m {info.name || 'Your Name'} 
+    <div className="relative z-10 flex flex-col items-center justify-start w-full max-w-4xl px-4">
+      <h1 className="text-6xl md:text-7xl text-gray-800 font-extrabold mb-4 leading-tight">
+        {info.name || 'Your Name'} 
       </h1>
 
-      <p className="text-xl text-indigo-600 max-w-xl mb-8 font-medium">
-        {info.tagline || 'Your Tagline'}
+      <p className="text-xl md:text-2xl text-indigo-600 max-w-xl mb-12 font-medium">
+        {info.tagline || 'Your Tagline'}    
       </p>
 
       <div className="flex space-x-4">
@@ -77,7 +77,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
           href={info.github_url || "#"}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-6 py-3 border border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition duration-300"
+          className="px-6 py-3 border border-indigo-600 text-indigo-600 font-semibold rounded-lg hover:bg-indigo-600 hover:text-white transition duration-300 shadow-md hover:shadow-lg"
         >
           GitHub
         </a>
@@ -85,7 +85,7 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
           href={info.linkedin_url || '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-md hover:bg-indigo-700 transition duration-300"
+          className="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-lg shadow-xl hover:bg-indigo-700 transition duration-300"
         >
           LinkedIn
         </a>
@@ -93,12 +93,17 @@ const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
           href={info.resume_url || '#'}
           target="_blank"
           rel="noopener noreferrer"
-          className="px-6 py-3 border border-gray-600 text-gray-600 font-semibold rounded-lg hover:text-gray-900 transition duration-300"
+          className="px-6 py-3 border border-gray-600 text-gray-600 font-semibold rounded-lg hover:text-gray-900 hover:bg-gray-100 transition duration-300 shadow-md"
         >
           View Resume
         </a>
       </div>
     </div>
+
+    <div className="absolute inset-0 pointer-events-none z-0">
+    </div>
+
+    <hr className="w-1/3 mx-auto border-t-2 border-gray-300 absolute bottom-12 left-1/2 transform -translate-x-1/2 z-10" />
   </Section>
 );
 

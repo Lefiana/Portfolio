@@ -66,7 +66,7 @@ export default function Section({
     >
       {title && (
         <motion.h2 
-          className="text-2xl font-bold mb-4 text-indigo-400"
+          className="text-5xl font-bold mb-4 text-indigo-400"
           initial={shouldAnimate ? { opacity: 0, scale: 0.95 } : undefined}
           whileInView={shouldAnimate ? { opacity: 1, scale: 1 } : undefined}
           transition={shouldAnimate ? { duration: 0.4, delay: delay + 0.1 } : { duration: 0 }}

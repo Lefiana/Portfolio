@@ -93,8 +93,8 @@ export default async function HomePage() {
     <main
       className="
         bg-gradient-to-b
-        from-gray-100
-        via-gray-400
+        from-gray-300
+        via-gray-500
         to-gray-900
         min-h-screen
         text-gray-800"
@@ -111,7 +111,7 @@ export default async function HomePage() {
         <AboutPreview info={finalPersonalInfo} />
       </Section>
 
-      <Section id="skills" title="Skills" className="bg-gray-50" delay={0}>
+      <Section id="skills" title="Skills" className="bg-gray-50" delay={0} >
         <SkillsSection skills={skills} />
       </Section>
 

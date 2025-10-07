@@ -37,53 +37,74 @@ const CertificatesSection: React.FC<AchievementSectionProps> = ({ achievements =
         setCurrentCert(null);
     };
 
-    return (
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
-            {achievements.map((item) => ( // Renamed 'achievements' in map to 'item' for clarity
-                <div
-                    key={item.id}
-                    onClick={() => openModal(item)}
-                    className="
-                        rounded-xl 
-                        bg-white/50
-                        border-b-4 
-                        border-transparent 
-                        shadow-lg 
-                        p-4 
-                        text-center 
-                        text-gray-800 
-                        font-semibold
-                        hover:border-green-500 
-                        hover:-translate-y-1 
-                        hover:shadow-2xl 
-                        transition 
-                        duration-500 
-                        ease-out 
-                        cursor-pointer
-                    "
-                >
-                    <div className="text-lg mb-1">
-                        {item.type === 'award' ? '🏆 ' : ''}
-                        {item.title}
-                    </div>
-                    <div className="text-sm text-gray-500">{item.issuer}</div>
-                </div>
-            ))}
+    const hoverColors = [
+    'hover:border-indigo-500', // Color 1
+    'hover:border-red-500',    // Color 2
+    'hover:border-green-500',  // Color 3 (your original)
+    'hover:border-yellow-500', // Color 4
+    'hover:border-pink-500',   // Color 5
+    'hover:border-cyan-500',   // Color 6
+    ]
 
-            {/* Render the modal conditionally */}
-            {currentCert && (
-                <CertificateModal
-                    isOpen={isModalOpen}
-                    onClose={closeModal}
-                    title={currentCert.title}
-                    // Corrected prop name to match the interface
-                    image_url={currentCert.image_url}
-                    // Optional: Pass the credential URL if it exists
-                    credential_url={currentCert.credential_url}
-                />
-            )}
+return (
+    <div>
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+            {/* Converted .map() to use block syntax ({}) 
+              so we can declare the colorClass variable.
+              Requires an explicit 'return' inside the block.
+            */}
+            {achievements.map((item, index) => { 
+                
+                // 1. Logic inside the block scope
+                const colorClass = hoverColors[index % hoverColors.length]; 
+                
+                // 2. Explicit return of JSX
+                return (
+                    <div
+                        key={item.id}
+                        onClick={() => openModal(item)}
+                        // Use a template literal to inject the dynamic color class
+                        className={`
+                            rounded-xl 
+                            bg-white/50
+                            border-b-4 
+                            border-transparent 
+                            shadow-lg 
+                            p-4 
+                            text-center 
+                            text-gray-800 
+                            font-semibold
+                            ${colorClass}  
+                            hover:-translate-y-1 
+                            hover:shadow-2xl 
+                            transition 
+                            duration-500 
+                            ease-out 
+                            cursor-pointer
+                        `.trim()}
+                    >
+                        <div className="text-lg mb-1">
+                            {item.type === 'award' ? '🏆 ' : ''}
+                            {item.title}
+                        </div>
+                        <div className="text-sm text-gray-500">{item.issuer}</div>
+                    </div>
+                );
+            })}
         </div>
-    );
+
+        {/* Render the modal conditionally */}
+        {currentCert && (
+            <CertificateModal
+                isOpen={isModalOpen}
+                onClose={closeModal}
+                title={currentCert.title}
+                image_url={currentCert.image_url}
+                credential_url={currentCert.credential_url}
+            />
+        )}
+    </div>
+);
 };
 
 export default CertificatesSection;
