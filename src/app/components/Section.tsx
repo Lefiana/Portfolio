@@ -53,7 +53,7 @@ export default function Section({
 
   const { initial, whileInView, transition } = variants[animationVariant] || variants['fade-up'];
 
-  const base = "py-16 px-8 border-b border-gray-200 bg-transparent text-gray-800";
+  const base = "py-16 px-8 border-b border-gray-200 bg-transparent text-gray-800 !bg-transparent";
 
   return (
     <motion.section

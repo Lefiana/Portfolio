@@ -11,7 +11,7 @@ export const metadata = {
 };
 
 
-const CLOUDINARY_GIF_URL = "https://res.cloudinary.com/dal65p2pp/image/upload/v1759830461/yae-miko_gcltn3.gif"
+const CLOUDINARY_GIF_URL = "https://res.cloudinary.com/dal65p2pp/image/upload/v1760888176/image-removebg-preview_ttbbit.png"
 export default function RootLayout({
   children,
 }: {

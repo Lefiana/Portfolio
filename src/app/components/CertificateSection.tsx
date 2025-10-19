@@ -48,7 +48,7 @@ const CertificatesSection: React.FC<AchievementSectionProps> = ({ achievements =
 
 return (
     <div>
-        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-3 gap-4 !bg-transparent">
             {/* Converted .map() to use block syntax ({}) 
               so we can declare the colorClass variable.
               Requires an explicit 'return' inside the block.

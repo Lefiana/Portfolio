@@ -14,7 +14,7 @@ interface HeroSectionProps {
 }
 
 const HeroSection: React.FC<HeroSectionProps> = ({ info }) => (
-  <Section className="h-[75vh] pt-32 flex flex-col items-center justify-start text-center !bg-transparent relative overflow-hidden">
+  <Section className="h-[75vh] pt-32 flex flex-col items-center justify-start text-center !bg-transparent relative overflow-hidden ">
     {/* Background Image: Now via external CSS class */}
     <div className="hero-bg absolute inset-0" />  {/* Subtle opacity from CSS */}
 
